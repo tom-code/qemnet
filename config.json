@@ -1,5 +1,6 @@
 {
+  "verbose": false,
   "links": [
-    {"id": "l1", "local_port": 9999, "remote_port": 9998}
+    {"id": "l1", "type": "bridged", "local_port": 9999, "remote_port": 9998, "parent": "en0"}
   ]
 }

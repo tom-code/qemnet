@@ -15,7 +15,11 @@ class udp2 {
     private var data_callback: Optional<(Data) -> Void> = nil
     private var local_port = 9999
     private var remote_port = 9998
+    private var verbose = false
 
+    func set_verbose(verbose: Bool) {
+        self.verbose = verbose
+    }
     func set_port(local: Int, remote: Int) {
         self.local_port = local
         self.remote_port = remote
@@ -29,7 +33,9 @@ class udp2 {
                 print("[udp2] connection terminated")
                 return
             }
-            print(String(format: "[udp] got data %d", completeContent!.count))
+            if self.verbose {
+                print(String(format: "[udp] got data %d", completeContent!.count))
+            }
             if self.data_callback != nil {
                 self.data_callback!(completeContent!)
             }
@@ -41,7 +47,9 @@ class udp2 {
             return
         }
         connection?.send(content: data, completion: .contentProcessed({ error in
-            print("[udp2] did send")
+            if self.verbose {
+                print("[udp2] did send")
+            }
         }))
     }
     func stop() {

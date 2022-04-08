@@ -17,11 +17,22 @@ class vmnet {
     enum Mode {
         case Shared
         case Host
+        case Bridged
     }
     private var mode = Mode.Host
+    private var bridge_dev = ""
+
+    private var verbose = false
+
+    func set_verbose(verbose: Bool) {
+        self.verbose = verbose
+    }
 
     func setMode(mode: Mode) {
         self.mode = mode
+    }
+    func setBridgeDev(dev: String) {
+        self.bridge_dev = dev
     }
 
     func start(queue : DispatchQueue) -> Bool {
@@ -31,6 +42,10 @@ class vmnet {
         var net_mode = UInt64(operating_modes_t.VMNET_HOST_MODE.rawValue)
         if mode == Mode.Shared {
             net_mode = UInt64(operating_modes_t.VMNET_SHARED_MODE.rawValue)
+        }
+        if mode == Mode.Bridged {
+            net_mode = UInt64(operating_modes_t.VMNET_BRIDGED_MODE.rawValue)
+            xpc_dictionary_set_string(iface_desc, vmnet_shared_interface_name_key, bridge_dev)
         }
         xpc_dictionary_set_uint64(iface_desc, vmnet_operation_mode_key, net_mode)
 

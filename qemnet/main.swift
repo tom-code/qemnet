@@ -13,14 +13,27 @@ let queue = DispatchQueue(label: "qemnet")
 class link {
     private var udpsocket: udp2?
     private var vmn: vmnet?
+    private var parent_dev = ""
+    private var mode: vmnet.Mode
 
     init(local_port: Int, remote_port: Int, mode: vmnet.Mode) {
         udpsocket = udp2()
         udpsocket!.set_port(local: local_port, remote: remote_port)
         vmn = vmnet()
         vmn!.setMode(mode: mode)
+        self.mode = mode
+    }
+    func set_verbose(verbose: Bool) {
+        udpsocket?.set_verbose(verbose: verbose)
+        vmn?.set_verbose(verbose: verbose)
+    }
+    func set_parent_dev(dev: String) {
+        parent_dev = dev
     }
     func start() {
+        if mode == vmnet.Mode.Bridged {
+            vmn?.setBridgeDev(dev: parent_dev)
+        }
         vmn!.on_data { data in
             self.udpsocket!.send(data: data)
         }
@@ -42,12 +55,23 @@ var links: [String: link] = [:]
 
 let config = config_decode()
 print("ready...")
+var verbose = false;
+if config?.verbose != nil {
+    verbose = config?.verbose == true
+}
 for lnk in config?.links ?? [] {
     var type = vmnet.Mode.Shared
     if (lnk.type != nil) && (lnk.type == NetLink.Typex.host) {
         type = vmnet.Mode.Host
     }
+    var parent = ""
+    if (lnk.type != nil) && (lnk.type == NetLink.Typex.bridged) {
+        type = vmnet.Mode.Bridged
+        parent = lnk.parent ?? ""
+    }
     let l = link(local_port: lnk.local_port, remote_port: lnk.remote_port, mode: type)
+    l.set_parent_dev(dev: parent)
+    l.set_verbose(verbose: verbose)
     l.start()
     links[lnk.id] = l
 }
