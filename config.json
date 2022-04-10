@@ -1,6 +1,10 @@
 {
+  "image": "/Volumes/data/qemu/alpine2.qcow",
+  "ram": 2048,
+  "cores": 2,
   "verbose": false,
   "links": [
-    {"id": "l1", "type": "bridged", "local_port": 9999, "remote_port": 9998, "parent": "en0"}
+    {"id": "l1", "type": "shared", "local_port": 9999, "remote_port": 9998, "parent": "en0"},
+    {"id": "l2", "type": "host", "local_port": 9990, "remote_port": 9991, "parent": "en0"}
   ]
 }

@@ -56,6 +56,7 @@ class vmnet {
             } else {
                 print("[vmnet] create completed")
                 create_ok = true
+                print(params)
             }
             semaphore.signal()
         }
@@ -118,7 +119,6 @@ class vmnet {
     private func read_packet() {
         let size = max_packet_size
         let buffer = UnsafeMutableRawPointer.allocate(byteCount: size, alignment: 4)
-
 
         let iov = UnsafeMutablePointer<iovec>.allocate(capacity: 1)
         iov.pointee.iov_len = size

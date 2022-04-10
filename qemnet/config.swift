@@ -22,11 +22,14 @@ struct NetLink: Decodable {
 struct Config: Decodable {
     let links: [NetLink]
     let verbose: Bool?
+    let image: String
+    let ram: Int
+    let cores: Int?
 }
 
-func config_decode() -> Config? {
+func config_decode(filename: String) -> Config? {
     do {
-        let d = try Data.init(contentsOf: URL.init(fileURLWithPath: "config.json"))
+        let d = try Data.init(contentsOf: URL.init(fileURLWithPath: filename))
         let config = try JSONDecoder().decode(Config.self, from: d)
         print(config)
         return config
