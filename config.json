@@ -2,6 +2,7 @@
   "image": "/Volumes/data/qemu/alpine2.qcow",
   "ram": 2048,
   "cores": 2,
+  "accel": "hvf",
   "verbose": false,
   "links": [
     {"id": "l1", "type": "shared", "local_port": 9999, "remote_port": 9998, "parent": "en0"},

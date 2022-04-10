@@ -17,6 +17,7 @@ struct NetLink: Decodable {
     let remote_port: Int
     let type: Typex?
     let parent: String?
+    let device: String?
 }
 
 struct Config: Decodable {
@@ -25,6 +26,11 @@ struct Config: Decodable {
     let image: String
     let ram: Int
     let cores: Int?
+    let kernel: String?
+    let architecture: String?
+    let machine: String?
+    let accel: String?
+    let args: String?
 }
 
 func config_decode(filename: String) -> Config? {
