@@ -18,12 +18,13 @@ struct NetLink: Decodable {
     let type: Typex?
     let parent: String?
     let device: String?
+    let netid: String?
 }
 
 struct Config: Decodable {
     let links: [NetLink]
     let verbose: Bool?
-    let image: String
+    let image: String?
     let ram: Int
     let cores: Int?
     let kernel: String?

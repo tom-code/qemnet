@@ -1,5 +1,4 @@
 {
-  "image": "/Volumes/data/qemu/openwrt-21.02.2-armvirt-32-rootfs-squashfs.img",
   "kernel": "/Volumes/data/qemu/openwrt-21.02.2-armvirt-32-zImage",
   "architecture": "arm",
   "machine": "virt-2.9",
@@ -9,6 +8,6 @@
   "verbose": false,
   "links": [
     {"id": "l1", "type": "shared", "local_port": 9999, "remote_port": 9998, "parent": "en0", "device": "virtio-net-pci"},
-    {"id": "l2", "type": "host", "local_port": 9990, "remote_port": 9991, "parent": "en0", "device": "virtio-net-pci"}
+    {"id": "l2", "type": "host",   "local_port": 9990, "remote_port": 9991, "parent": "en0", "device": "virtio-net-pci"}
   ]
 }

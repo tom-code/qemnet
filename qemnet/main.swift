@@ -12,6 +12,7 @@ class link {
     private var vmn: vmnet?
     private var parent_dev = ""
     private var mode: vmnet.Mode
+    private var net_id = ""
 
     init(local_port: Int, remote_port: Int, mode: vmnet.Mode) {
         udpsocket = udp2()
@@ -27,10 +28,14 @@ class link {
     func set_parent_dev(dev: String) {
         parent_dev = dev
     }
+    func set_net_id(id: String) {
+        net_id = id
+    }
     func start() {
         if mode == vmnet.Mode.Bridged {
             vmn?.setBridgeDev(dev: parent_dev)
         }
+        vmn?.setNetId(id: net_id)
         vmn!.on_data { data in
             self.udpsocket!.send(data: data)
         }
@@ -79,6 +84,11 @@ for lnk in config?.links ?? [] {
     }
     let l = link(local_port: lnk.local_port, remote_port: lnk.remote_port, mode: type)
     l.set_parent_dev(dev: parent)
+    var netid = ""
+    if let id = lnk.netid {
+        netid = id
+    }
+    l.set_net_id(id: netid)
     l.set_verbose(verbose: verbose)
     l.start()
     links[lnk.id] = l

@@ -21,6 +21,7 @@ class vmnet {
     }
     private var mode = Mode.Host
     private var bridge_dev = ""
+    private var net_id = ""
 
     private var verbose = false
 
@@ -33,6 +34,9 @@ class vmnet {
     }
     func setBridgeDev(dev: String) {
         self.bridge_dev = dev
+    }
+    func setNetId(id: String) {
+        self.net_id = id
     }
 
     func start(queue : DispatchQueue) -> Bool {
@@ -48,7 +52,20 @@ class vmnet {
             xpc_dictionary_set_string(iface_desc, vmnet_shared_interface_name_key, bridge_dev)
         }
         xpc_dictionary_set_uint64(iface_desc, vmnet_operation_mode_key, net_mode)
+        if self.net_id != "" {
+            var bytes = [UInt8](repeating: 0, count: 16)
+            let s1 = min(16, net_id.count)
+            for i in 0...s1 {
+                bytes[i] = UInt8(net_id.utf8CString[i])
+            }
+            xpc_dictionary_set_uuid(iface_desc, vmnet_network_identifier_key, bytes)
+            //xpc_dictionary_set_bool(iface_desc, vmnet_enable_isolation_key, true)
+            //xpc_dictionary_set_string(iface_desc, vmnet_host_ip_address_key, "10.0.0.1")
+            //xpc_dictionary_set_uint64(iface_desc, vmnet_mtu_key, 1001)
+            print("[vmnet] netid: \(self.net_id)")
+        }
 
+        print(iface_desc)
         var create_ok = false
         func create_completed(ret: vmnet_return_t, params: xpc_object_t?) -> Void {
             if ret != vmnet_return_t.VMNET_SUCCESS {

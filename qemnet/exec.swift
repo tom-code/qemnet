@@ -21,8 +21,10 @@ func exec(config: Config) {
         task.arguments!.append("-m")
         task.arguments!.append("\(config.ram)")
 
-        task.arguments!.append("-hda")
-        task.arguments!.append(config.image)
+        if let image = config.image {
+            task.arguments!.append("-hda")
+            task.arguments!.append(image)
+        }
 
         if let accel = config.accel {
             task.arguments!.append("-accel")

@@ -1,0 +1,14 @@
+{
+  "kernel": "/Volumes/data/qemu/openwrt-21.02.2-armvirt-64-Image",
+  "architecture": "aarch64",
+  "machine": "virt",
+  "ram": 2048,
+  "cores": 2,
+  "args": "-drive file=/Volumes/data/qemu/openwrt-21.02.2-armvirt-64-rootfs-squashfs.img,if=virtio,format=raw -append root=/dev/vda -cpu cortex-a57",
+  "verbose": false,
+  "links": [
+    {"id": "l1", "type": "shared", "local_port": 9989, "remote_port": 9988, "parent": "en0", "device": "virtio-net-pci"},
+    {"id": "l2", "type": "host",   "local_port": 9980, "remote_port": 9981, "parent": "en0", "device": "virtio-net-pci,mac=52:54:00:00:00:01", "netid": "n1"}
+  ]
+}
+

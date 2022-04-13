@@ -1,0 +1,10 @@
+{
+  "image": "/Volumes/data/qemu/alpine2.qcow",
+  "ram": 2048,
+  "cores": 2,
+  "accel": "hvf",
+  "verbose": false,
+  "links": [
+    {"id": "l2", "type": "host", "local_port": 9990, "remote_port": 9991, "parent": "en0", "netid": "n1", "device": "virtio-net-pci,mac=52:54:00:00:00:02"}
+  ]
+}
