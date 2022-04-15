@@ -4,8 +4,10 @@
   "cores": 2,
   "accel": "hvf",
   "verbose": false,
+  "args": "-qmp tcp:localhost:4444,server,wait=off",
   "links": [
-    {"id": "l1", "type": "shared", "local_port": 9999, "remote_port": 9998, "parent": "en0", "device": "virtio-net-pci"},
-    {"id": "l2", "type": "host",   "local_port": 9990, "remote_port": 9991, "parent": "en0"}
+    {"id": "l1", "type": "shared",  "local_port": 9990, "remote_port": 9991, "device": "virtio-net-pci"},
+    {"id": "l2", "type": "host",    "local_port": 9992, "remote_port": 9993},
+    {"id": "l3", "type": "bridged", "local_port": 9994, "remote_port": 9995, "parent": "en0"}
   ]
 }

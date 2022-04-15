@@ -9,7 +9,7 @@ import Foundation
 
 
 
-func exec(config: Config) {
+func exec(config: Config, on_stop: @escaping () -> Void) {
     do {
         let task = Process()
         var arch = "x86_64"
@@ -73,17 +73,37 @@ func exec(config: Config) {
         try task.run()
         //task.waitUntilExit()
         let sem = DispatchSemaphore(value: 0)
-        while true {
-            pipe.fileHandleForReading.readabilityHandler =  { handle in
-                sem.signal()
-            }
-            sem.wait()
+        pipe.fileHandleForReading.readabilityHandler =  { handle in
+            sem.signal()
+            print("signal")
             let out = pipe.fileHandleForReading.availableData
+            print("wait3")
             print(String.init(decoding: out, as: UTF8.self), terminator: "")
             if !task.isRunning {
+                pipe.fileHandleForReading.readabilityHandler = nil
+                on_stop()
+            }
+        }
+        /*
+        while true {
+         /*   pipe.fileHandleForReading.readabilityHandler =  { handle in
+                sem.signal()
+                print("signal")
+            }*/
+            print("wait1")
+            sem.wait()
+            print("wait2")
+            /*print(sem)
+            print("wait2")
+            let out = pipe.fileHandleForReading.availableData
+            print("wait3")
+            print(String.init(decoding: out, as: UTF8.self), terminator: "")*/
+            if !task.isRunning {
+                pipe.fileHandleForReading.readabilityHandler = nil
                 break
             }
         }
+         */
     } catch {
         print("except \(error)")
     }

@@ -51,17 +51,24 @@ class link {
         vmn!.stop()
     }
 }
-
+dectest()
+run_cmdloop()
+print("launched")
 var config_file = "config.json"
 
 print(CommandLine.arguments)
+let uid = getuid()
+print("running with uid: \(uid)")
+if uid != 0 {
+    print("networking not supported for regular user. run wih sudo!")
+    exit(1)
+}
 if CommandLine.arguments.count > 1 {
     config_file = CommandLine.arguments[1]
 }
 
 var links: [String: link] = [:]
 let queue = DispatchQueue(label: "qemnet")
-
 
 let config = config_decode(filename: config_file)
 if config == nil {
@@ -94,8 +101,11 @@ for lnk in config?.links ?? [] {
     links[lnk.id] = l
 }
 
-
-exec(config: config!)
+let sem = DispatchSemaphore(value:0)
+exec(config: config!) {
+    sem.signal()
+}
+sem.wait()
 
 for link in links {
     link.value.stop()
