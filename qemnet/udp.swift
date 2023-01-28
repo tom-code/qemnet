@@ -4,7 +4,7 @@
 //
 //  Created by tom on 03.04.2022.
 //
-
+/*
 import Foundation
 import Network
 
@@ -76,3 +76,4 @@ class udp {
         self.connection?.cancel()
     }
 }
+*/

@@ -22,7 +22,7 @@ struct NetLink: Decodable {
     let hwaddr: String?
 }
 
-struct Config: Decodable {
+struct VMConfig: Decodable {
     let links: [NetLink]
     let verbose: Bool?
     let image: String?
@@ -33,12 +33,13 @@ struct Config: Decodable {
     let machine: String?
     let accel: String?
     let args: String?
+    let args2: [String]?
 }
 
-func config_decode(filename: String) -> Config? {
+func config_decode(filename: String) -> VMConfig? {
     do {
         let d = try Data.init(contentsOf: URL.init(fileURLWithPath: filename))
-        let config = try JSONDecoder().decode(Config.self, from: d)
+        let config = try JSONDecoder().decode(VMConfig.self, from: d)
         print(config)
         return config
     } catch let error as NSError {

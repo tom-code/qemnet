@@ -9,7 +9,7 @@ import Foundation
 
 
 
-func exec(config: Config, on_stop: @escaping () -> Void) {
+func exec(config: VMConfig, on_stop: @escaping () -> Void) {
     do {
         let task = Process()
         var arch = "x86_64"
@@ -48,6 +48,12 @@ func exec(config: Config, on_stop: @escaping () -> Void) {
         if let args = config.args {
             let spl = args.components(separatedBy: " ")
             task.arguments!.append(contentsOf: spl)
+        }
+        if let args2 = config.args2 {
+            for arg in args2 {
+                let spl = arg.components(separatedBy: " ")
+                task.arguments!.append(contentsOf: spl)
+            }
         }
 
         var id = 0

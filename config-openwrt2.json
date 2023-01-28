@@ -4,7 +4,11 @@
   "machine": "virt",
   "ram": 2048,
   "cores": 2,
-  "args": "-drive file=/Volumes/data/qemu/openwrt-22.03.3-armvirt-32-rootfs-squashfs.img,if=none,format=raw,id=hd0 -device virtio-blk-device,drive=hd0 -append root=/dev/vda -serial telnet:localhost:4321,server,nowait",
+  "args": "-drive file=/Volumes/data/qemu/openwrt-22.03.3-armvirt-32-rootfs-squashfs.img,if=none,format=raw,id=hd0 -device virtio-blk-device,drive=hd0",
+  "args2": [
+             "-serial telnet:localhost:4321,server,nowait",
+             "-append root=/dev/vda"
+           ],
   "verbose": false,
   "links": [
     {"id": "l1", "type": "shared", "local_port": 9999, "remote_port": 9998, "parent": "en0", "device": "virtio-net-device"},

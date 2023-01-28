@@ -4,7 +4,7 @@
 //
 //  Created by tom on 10.04.2022.
 //
-
+/*
 import Foundation
 
 class thrc {
@@ -73,3 +73,4 @@ func cmdloop() {
     }
 }
 
+*/

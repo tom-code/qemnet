@@ -57,8 +57,10 @@ class udp2 {
     }
     func start(queue: DispatchQueue) {
         let params = NWParameters(dtls: nil, udp: .init())
-        params.requiredLocalEndpoint = NWEndpoint.hostPort(host: .ipv4(.any), port: NWEndpoint.Port(String(local_port))!)
-        connection = NWConnection(host: "127.0.0.1", port: NWEndpoint.Port(String(remote_port))!, using: params)
+        let local_port_tmp = NWEndpoint.Port(rawValue: UInt16(local_port))
+        let remote_port_tmp = NWEndpoint.Port(rawValue: UInt16(remote_port))
+        params.requiredLocalEndpoint = NWEndpoint.hostPort(host: .ipv4(.any), port: local_port_tmp!)
+        connection = NWConnection(host: "127.0.0.1", port: remote_port_tmp!, using: params)
 
         connection?.stateUpdateHandler = { (state) in
             print("[udp2] state: \(state) \(self.connection?.endpoint as Optional)")
