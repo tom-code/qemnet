@@ -19,6 +19,7 @@ struct NetLink: Decodable {
     let parent: String?
     let device: String?
     let netid: String?
+    let hwaddr: String?
 }
 
 struct Config: Decodable {

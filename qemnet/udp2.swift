@@ -61,7 +61,7 @@ class udp2 {
         connection = NWConnection(host: "127.0.0.1", port: NWEndpoint.Port(String(remote_port))!, using: params)
 
         connection?.stateUpdateHandler = { (state) in
-            print("[udp2] state: \(state) \(self.connection?.endpoint)")
+            print("[udp2] state: \(state) \(self.connection?.endpoint as Optional)")
         }
         receiver(con: connection!)
 

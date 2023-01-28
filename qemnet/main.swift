@@ -51,7 +51,7 @@ class link {
         vmn!.stop()
     }
 }
-dectest()
+//dectest()
 run_cmdloop()
 print("launched")
 var config_file = "config.json"

@@ -57,7 +57,12 @@ func exec(config: Config, on_stop: @escaping () -> Void) {
                 device = dev
             }
             task.arguments!.append("-device")
-            task.arguments!.append("\(device),netdev=net\(id)")
+
+            var macparam = ""
+            if let mac = link.hwaddr {
+                macparam = ",mac="+mac
+            }
+            task.arguments!.append("\(device),netdev=net\(id)\(macparam)")
 
             task.arguments!.append("-netdev")
             task.arguments!.append("socket,id=net\(id),udp=:\(link.local_port),localaddr=:\(link.remote_port)")
@@ -84,26 +89,6 @@ func exec(config: Config, on_stop: @escaping () -> Void) {
                 on_stop()
             }
         }
-        /*
-        while true {
-         /*   pipe.fileHandleForReading.readabilityHandler =  { handle in
-                sem.signal()
-                print("signal")
-            }*/
-            print("wait1")
-            sem.wait()
-            print("wait2")
-            /*print(sem)
-            print("wait2")
-            let out = pipe.fileHandleForReading.availableData
-            print("wait3")
-            print(String.init(decoding: out, as: UTF8.self), terminator: "")*/
-            if !task.isRunning {
-                pipe.fileHandleForReading.readabilityHandler = nil
-                break
-            }
-        }
-         */
     } catch {
         print("except \(error)")
     }

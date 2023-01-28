@@ -53,14 +53,13 @@ class vmnet {
         }
         xpc_dictionary_set_uint64(iface_desc, vmnet_operation_mode_key, net_mode)
         if self.net_id != "" {
-            var bytes = [UInt8](repeating: 0, count: 16)
-            let s1 = min(16, net_id.count)
-            for i in 0...s1 {
-                bytes[i] = UInt8(net_id.utf8CString[i])
-            }
-            xpc_dictionary_set_uuid(iface_desc, vmnet_network_identifier_key, bytes)
-            //xpc_dictionary_set_bool(iface_desc, vmnet_enable_isolation_key, true)
-            //xpc_dictionary_set_string(iface_desc, vmnet_host_ip_address_key, "10.0.0.1")
+            xpc_dictionary_set_bool(iface_desc, vmnet_enable_isolation_key, true)
+            //xpc_dictionary_set_string(iface_desc, vmnet_host_ip_address_key, "10.0.5.1")
+            xpc_dictionary_set_string(iface_desc, vmnet_host_subnet_mask_key, "255.255.255.0")
+
+            xpc_dictionary_set_string(iface_desc, vmnet_subnet_mask_key, "255.255.255.0")
+            xpc_dictionary_set_string(iface_desc, vmnet_start_address_key, "10.0.5.100")
+            xpc_dictionary_set_string(iface_desc, vmnet_end_address_key, "10.0.5.150")
             //xpc_dictionary_set_uint64(iface_desc, vmnet_mtu_key, 1001)
             print("[vmnet] netid: \(self.net_id)")
         }
@@ -73,7 +72,9 @@ class vmnet {
             } else {
                 print("[vmnet] create completed")
                 create_ok = true
-                print(params)
+                if let p = params {
+                    print(p)
+                }
             }
             semaphore.signal()
         }

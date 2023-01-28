@@ -37,7 +37,7 @@ func getJsonParString(json: Any, path: String) -> String? {
 }
 
 
-func dectest() {
+/*func dectest() {
     do {
         let d = try JSONSerialization.jsonObject(with: "{\"aaa\": true, \"bb\": {\"cc\": \"ooo\"}}".data(using: .utf8)!)
         print(d)
@@ -53,3 +53,4 @@ func dectest() {
         print(error)
     }
 }
+*/
