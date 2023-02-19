@@ -7,7 +7,7 @@
 
 import Foundation
 
-class link {
+class VMNetLink {
     private var udpsocket: udp2
     private var vmn: vmnet
     private var parent_dev = ""
@@ -54,7 +54,7 @@ class link {
 
 class VMInstance {
 
-    private var links: [String: link] = [:]
+    private var links: [String: VMNetLink] = [:]
     private let config: VMConfig;
     private var verbose = false;
     private let queue: DispatchQueue;
@@ -81,7 +81,7 @@ class VMInstance {
                 type = vmnet.Mode.Bridged
                 parent = lnk.parent ?? ""
             }
-            let l = link(local_port: lnk.local_port, remote_port: lnk.remote_port, mode: type)
+            let l = VMNetLink(local_port: lnk.local_port, remote_port: lnk.remote_port, mode: type)
             l.set_parent_dev(dev: parent)
             var netid = ""
             if let id = lnk.netid {

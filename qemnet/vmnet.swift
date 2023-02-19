@@ -83,7 +83,7 @@ class vmnet {
         print("[vmnet] creating")
         if interface == nil {
             print("[vmnet] interface start failed")
-            exit(1)
+            return false
         }
         semaphore.wait()
         print("[vmnet] create done")
